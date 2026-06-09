@@ -1,0 +1,178 @@
+class Ball{
+
+    field int x, y;
+    field int bW, bH;
+    field int dx, dy;
+    field int vel;
+    
+    field Platform platform;
+
+    constructor Ball new(Platform p){
+        let bW = 4;
+        let bH = 2;   
+        let y = p.getY() - (bH + 10);
+        let x = p.getX();
+        let dx = 1;
+        let dy = -1;
+        
+        let vel = 1;
+        let platform = p;
+        
+        return this;
+    }
+
+    method void move(){
+        do collision();
+        let x = x + dx;
+        let y = y + dy;
+        return;
+    }
+
+    method void drawBall(){
+        do Screen.setColor(true);
+        do Screen.drawRectangle(x,y,x+bW, y+bH);
+        return;
+    }
+    
+    method void collision(){
+        var int platformLeft, platformRight, platformThird;
+        var int ballLeft, ballRight;
+    
+        if (x < 1) {
+            let x = 1;
+            let dx = -dx;
+        }
+        
+        if (x + bW > 510){
+            let x = 510 - bW;
+            let dx = -dx;
+        }
+
+        if (y < 1){           
+            let y = 1;
+            let dy = -dy;
+        }
+    
+        if (y + bH > 220) {
+            do Main.setBallLost();
+        }
+        
+        if (checkCollisionWithPlatform(platform)){
+            let platformLeft = platform.getX() - (platform.getWidth() / 2);
+            let platformRight = platform.getX() + (platform.getWidth() / 2);
+            let platformThird = platform.getWidth() / 3;
+            
+            let ballLeft = x;
+            let ballRight = x + bW;
+            
+            if (ballRight < (platformLeft + platformThird)) {
+                let dx = -1;
+            }
+            else {
+                if (ballLeft > (platformRight - platformThird)) {
+                    let dx = 1;
+                }
+                else {
+                    let dx = 1.25;
+                }
+            }         
+            
+            let dy = -dy;   
+            let y = platform.getY() - (bH + 1);
+        }
+    
+        return;
+    }
+    
+    method boolean checkCollisionWithPlatform(Platform p) {
+        var int platformTop, platformBottom, platformLeft, platformRight;
+        var int ballTop, ballBottom, ballLeft, ballRight;
+
+        let platformTop = p.getY();
+        let platformBottom = platformTop + p.getHeight();
+        let platformLeft = p.getX() - (p.getWidth() / 2);
+        let platformRight = p.getX() + (p.getWidth() / 2);
+
+        let ballTop = y;
+        let ballBottom = y + bH;
+        let ballLeft = x;
+        let ballRight = x + bW;
+
+        return (~(ballBottom < platformTop) & ~(ballTop > platformBottom) &
+                ~(ballRight < platformLeft) & ~(ballLeft > platformRight));
+    }
+    
+    method boolean checkCollisionWithBrick(Brick brick) {
+        var int brickTop, brickBottom, brickLeft, brickRight;
+        var int ballTop, ballBottom, ballLeft, ballRight;
+        var int overlapX, overlapY, val1, val2;
+
+        let brickTop = brick.getY();
+        let brickBottom = brickTop + brick.getHeight();
+        let brickLeft = brick.getX();
+        let brickRight = brickLeft + brick.getWidth();
+        
+        let ballTop = y;
+        let ballBottom = y + bH;
+        let ballLeft = x;
+        let ballRight = x + bW;
+
+        if ((ballBottom > brickTop) & (ballTop < brickBottom) &
+            (ballRight > brickLeft) & (ballLeft < brickRight)) {
+
+            let val1 = ballRight - brickLeft;
+            let val2 = brickRight - ballLeft;
+            if (val1 < val2) {
+                let overlapX = val1;
+            }
+            else {
+                let overlapX = val2;
+            }
+
+            let val1 = ballBottom - brickTop;
+            let val2 = brickBottom - ballTop;
+            if (val1 < val2) {
+                let overlapY = val1;
+            }
+            else {
+                let overlapY = val2;
+            }
+
+            if (overlapX < overlapY) {
+                let dx = -dx;
+            } else {
+                let dy = -dy;
+            }
+
+            return true;    
+        }
+
+        return false; 
+    }
+    
+    method int getX(){
+        return x;
+    }
+    
+    method int getY(){
+        return y;
+    }
+
+    method int getH(){
+        return bH;
+    }
+    
+    method int getW(){
+        return bW;
+    }
+    
+    method void setX(int n){
+        let x = n;
+        return;
+    }
+    
+    method void setY(int n){
+        let y = n;
+        return;
+    }
+}

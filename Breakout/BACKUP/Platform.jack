@@ -1,0 +1,61 @@
+class Platform{
+	
+	field int pX, pY; // platform center (coordinates)
+	field int pW, pH; // platform width/height
+	field int direction;
+	
+	constructor Platform new(){
+		
+		let pW = 64;
+		let pH = 8;
+		let pX = 256; // x coordinate
+		let pY = 200; // y coordinate
+		let direction = 0;
+		
+		return this;
+		
+	}
+		
+		
+		
+	method void move(){
+		
+	if (direction = 1){
+		if ((pX + (pW/2)) < 511){
+			let pX = pX + 1;
+		}
+	}
+	
+	
+	if (direction = -1){
+		if ((pX - (pW/2)) > 0){
+			let pX = pX - 1;
+		}
+	}
+	
+	
+		return;
+	}
+	
+	method void setPlatformDirection(){ // ovdje ide inace "int n".
+	
+		let direction = 1;					// ovdje ide inace "n"
+	
+		//if ((pX - (pW/2)) > 0 | (pX + (pW/2)) < 511)
+		//{
+		//	let pX = pX + n;
+		//}
+		
+		return;
+		
+	}
+	
+	method void draw(){
+		
+		do Screen.drawRectangle(pX - (pW/2), pY, pX + (pW/2), pY + pH);
+		return;
+	
+		}
+
+
+}

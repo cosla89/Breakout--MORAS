@@ -1,0 +1,17 @@
+class Border{
+	
+	constructor Border new(){
+		return this;
+	}
+
+	method void drawBorder(){
+	
+	do Screen.setColor(true);
+	//do Screen.drawLine(0,220,511,220);
+	do Screen.drawRectangle(0, 220, 511, 222);
+
+	return;
+	
+	}
+	
+}

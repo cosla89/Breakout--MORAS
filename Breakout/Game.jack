@@ -1,0 +1,43 @@
+class Game{
+
+
+	static int speed; 					// game speed
+	static int drawInterval;			// kontrolira koliko se cesto screen redrawa
+	static int tickCounter;				// broj tickova od zadnjeg drawa
+		
+	
+	
+	function void init(){
+		let speed = 4;					// default speed (manje -> brze)
+		let drawInterval = 10;
+		let tickCounter = 0;
+		return;
+	
+	}
+	
+	
+	function void update(){
+	
+		let tickCounter = tickCounter + 1;
+		
+		do Main.updateGameState();			// update game state svaki tick
+		
+		if (tickCounter = drawInterval){	// draw screen svakih drawInterval ticks
+			do Main.renderScreen();
+			let tickCounter = 0;	
+		}
+		
+		do Game.delay();
+		return;
+	}
+	
+	function void delay(){
+		do Sys.wait(speed);
+		return;
+	}
+	
+	function void setSpeed(int n){
+		let speed = n;
+		return;
+	}
+}

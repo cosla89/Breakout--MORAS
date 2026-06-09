@@ -1,0 +1,42 @@
+function Game.init 0
+push constant 4
+pop static 0
+push constant 10
+pop static 1
+push constant 0
+pop static 2
+push constant 0
+return
+function Game.update 0
+push static 2
+push constant 1
+add
+pop static 2
+call Main.updateGameState 0
+pop temp 0
+push static 2
+push static 1
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+call Main.renderScreen 0
+pop temp 0
+push constant 0
+pop static 2
+label IF_FALSE0
+call Game.delay 0
+pop temp 0
+push constant 0
+return
+function Game.delay 0
+push static 0
+call Sys.wait 1
+pop temp 0
+push constant 0
+return
+function Game.setSpeed 0
+push argument 0
+pop static 0
+push constant 0
+return

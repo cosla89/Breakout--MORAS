@@ -1,0 +1,21 @@
+function Border.new 0
+push constant 0
+call Memory.alloc 1
+pop pointer 0
+push pointer 0
+return
+function Border.drawBorder 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 0
+push constant 220
+push constant 511
+push constant 222
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return

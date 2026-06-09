@@ -1,0 +1,86 @@
+class Platform{
+	
+	field int pX, pY; // platform center (coordinates)
+	field int pW, pH; // platform width/height
+	field int direction;
+	field int vel;	  // platform speed.
+	
+	
+	
+	
+	constructor Platform new(){
+		
+		let pW = 64;
+		let pH = 8;
+		let pX = 256; // x coordinate
+		let pY = 200; // y coordinate
+		let direction = 0;
+		let vel = 2;
+		
+		
+		return this;
+		
+	}
+		
+		
+		
+	method void move(){
+		
+		if (direction = 1){
+			if (vel+(pX + (pW/2)) < 511){
+				let pX = pX + vel;
+			}
+		}
+		
+		
+		if (direction = -1){
+			if (vel+(pX - (pW/2)) > 2){
+				let pX = pX - vel;
+			}
+		}
+	
+	
+	
+		return;
+	}
+	
+	method void setPlatformDirection(int n){ 
+	
+		let direction = n;					
+		
+		return;
+		
+	}
+	
+	method void drawPlatform(){
+	
+		do Screen.setColor(true);
+		do Screen.drawRectangle(pX - (pW/2), pY, pX + (pW/2), pY + pH);
+		return;
+	
+		}
+		
+	method void setSize(int n){
+		let pW = n;
+		return;
+	}
+		
+	
+	method int getX() {
+		return pX;
+	}
+
+	method int getY() {
+		return pY;
+	}
+
+	method int getWidth() {
+		return pW;
+	}
+
+	method int getHeight() {
+		return pH;
+	}	
+		
+	
+}

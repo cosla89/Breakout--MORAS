@@ -1,0 +1,66 @@
+class Brick{
+
+	field int bX, bY, bW, bH;
+	field boolean active;
+	field Game game;
+	field Ball ball;
+	
+	constructor Brick new(int x, int y){
+		let bX = x;
+		let bY = y;
+		let bW = 40;
+		let bH = 20;
+		let active = true;
+		return this;
+	
+	}
+	
+	method void drawBrick(){
+		if (active){
+		
+		do Screen.drawRectangle(bX, bY, bX+bW, bY+bH);
+		do Screen.setColor(false);
+		do Screen.drawRectangle(bX+2, bY+2, bX-2 + bW, bY-2 + bH);
+		do Screen.setColor(true);
+		
+		}
+		
+		return;
+	
+	}
+	
+	method void deactivate(){
+		let active = false;
+		return;
+	}
+	
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+	
+	
+	method boolean isActive(){
+		return active;
+	}
+	
+	method int getX(){
+		return bX;
+	}
+	
+	method int getHeight(){
+		return bH;
+	}
+	
+	method int getY(){
+		return bY;
+	}
+	
+	method int getWidth(){
+		return bW;
+	}
+	
+	
+}
+	
+	

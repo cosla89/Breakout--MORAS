@@ -1,0 +1,326 @@
+class Main {
+
+    static Border border;
+    static Platform platform;
+    static Ball ball;
+    static boolean running;
+    static Array bricks;
+    static int brickCount;
+    static int score;
+    static int lives;
+    static int level;
+    static int cntBrick;
+    static boolean ballLost;
+    static String strScore;
+    static String strLives;
+    static String strGameOver;
+    static String strYouWon;
+
+    function void setBallLost() {
+        let ballLost = true;
+        return;
+}
+ 
+    function void main() {
+        do Main.showMenu();
+        
+
+        let platform = Platform.new();
+        let ball = Ball.new(platform);
+        let running = true;
+        
+
+        do Main.setDifficulty(level);
+        let score = 0;
+        let bricks = Array.new(brickCount);
+        let cntBrick = 0;
+        
+
+        do Main.initBricks();
+        do Game.init();
+        let strScore = "Score: ";
+        let strLives = "Lives: ";
+        let strGameOver = "Game Over!";
+        let strYouWon = "You won!";
+        do border.drawBorder();
+        do platform.drawPlatform();
+        do ball.drawBall();
+        do Main.drawBricks();
+        
+        // Glavna petlja igre
+        while (running) {
+            do Main.handleInput();
+            do Game.update();
+        }
+        
+        return;
+    }
+
+
+    function void updateGameState() {
+    let ballLost = false;       // reset flag each frame
+    
+    if (brickCount = cntBrick) {
+        do Main.gameWon();
+    }
+    
+    do platform.move();
+    do ball.move();
+    
+    if (ballLost) {             // check AFTER move completes
+        do Main.gameOver();
+    }
+    
+    if ((ball.getY() > 49) & (ball.getY() < 91)) {
+        do Main.checkBrickCollisions();
+    }
+    
+    return;
+}
+
+    
+    function void handleInput() {
+        var int key;
+        let key = Keyboard.keyPressed();
+        
+        if (key = 132) { // tipka desno
+            do platform.setPlatformDirection(1);
+        }
+        else {
+            if (key = 130) { // tipka lijevo
+                do platform.setPlatformDirection(-1);
+            }
+            else {
+                do platform.setPlatformDirection(0);
+            }
+        }
+        return;
+    }
+        
+		
+    function void renderScreen() {
+        do Screen.clearScreen();
+        
+        do border.drawBorder();
+        do platform.drawPlatform();
+        do ball.drawBall();
+        do Main.drawBricks();
+        
+        do Main.drawScore(score);
+        do Main.drawLives(lives);
+    
+        return;
+    }
+        
+		
+    function void gameOver() {
+        var int i;
+
+        if (lives > 1) {
+            let lives = lives - 1;
+            // Resetiraj poziciju loptice
+            do ball.setX(platform.getX()); 
+            do ball.setY(platform.getY() - (ball.getH() + 10)); 
+            
+            // Pauza od 1 sekunde
+            let i = 0;
+            while (i < 100) {
+                do Sys.wait(10);
+                let i = i + 1;
+            }
+        }
+        else {
+            let running = false;
+            
+            do Screen.clearScreen();
+            do Screen.setColor(true);
+            do Output.moveCursor(10, 25);
+            do Output.printString(strGameOver);
+            do Output.moveCursor(15, 25);
+            do Output.printString(strScore);
+            do Output.moveCursor(15, 33);
+            do Output.printInt(score);
+            
+            // Pauza od 2 sekunde
+            let i = 0;
+            while (i < 200){
+                do Sys.wait(10);
+                let i = i + 1;
+            }
+            do Sys.halt();
+        }
+        return;
+    }
+    
+
+    function void gameWon() {
+        var int i;
+        let running = false;
+        
+        do Screen.clearScreen();
+        do Screen.setColor(true);
+        do Output.moveCursor(10, 25);
+        do Output.printString(strYouWon);
+        do Output.moveCursor(15, 25);
+        do Output.printString(strScore);
+        do Output.moveCursor(15, 32);
+        do Output.printInt(score);
+        
+        // Pauza od 2 sekunde
+        let i = 0;
+        while (i < 200) {
+            do Sys.wait(10);
+            let i = i + 1;
+        }
+        do Sys.halt();
+        return;
+    }
+    
+
+    function void initBricks() {
+        var int i, xPos, yPos;
+        let xPos = 50;
+        let yPos = 50;
+        let i = 0;
+        
+        while (i < brickCount) {
+            let bricks[i] = Brick.new(xPos, yPos);
+            let xPos = xPos + 40;
+            
+            if (((i + 1) / 10) * 10 = (i + 1)) {
+                let xPos = 50;
+                let yPos = yPos + 20;
+            }
+            let i = i + 1;
+        }
+        return;
+    }
+            
+
+    function void checkBrickCollisions() {
+        var int i;
+        var Brick currentBrick;
+        let i = 0;
+        
+        while (i < brickCount) {
+            let currentBrick = bricks[i];
+			
+			if (~(currentBrick = null)){
+				if (currentBrick.isActive()) {
+					if (ball.checkCollisionWithBrick(currentBrick)) {
+						do currentBrick.deactivate();
+						let score = score + 10;
+						let cntBrick = cntBrick + 1;
+						
+						
+						do currentBrick.dispose();
+						
+						let bricks[i] = null;
+					}
+				}
+			
+			}
+			
+            let i = i + 1;
+        }
+        return;
+    }
+    
+
+    function void setBrickCount(int n) {
+        let brickCount = n;
+        return;
+    }
+    
+
+    function void showMenu() {
+    var int key;
+    var boolean validKey;
+    
+    let validKey = false;
+    
+    while (~validKey) {
+        do Screen.clearScreen();
+        do Screen.setColor(true);
+        do Output.moveCursor(10, 22);  
+        do Output.printString("Select stage:");
+        do Output.moveCursor(12, 23); 
+        do Output.printString("1 - Easy");
+        do Output.moveCursor(14, 23);  
+        do Output.printString("2 - Normal");
+        do Output.moveCursor(16, 23); 
+        do Output.printString("3 - Hard");
+
+        let key = 0;
+        while (key = 0) {
+            let key = Keyboard.keyPressed();
+        }
+
+        if ((key = 49) | (key = 50) | (key = 51)) {
+            let validKey = true;
+        }
+    }
+
+    if (key = 49) { let level = 1; }
+    if (key = 50) { let level = 2; }
+    if (key = 51) { let level = 3; }
+    
+    return;
+}
+
+    function void setDifficulty(int n) {
+        if (n = 1) { // easy
+            do platform.setSize(96);
+            do Main.setBrickCount(10);
+            let lives = 3;
+        }
+        if (n = 2) { // normal
+            do platform.setSize(64);
+            do Main.setBrickCount(20);
+            let lives = 2;
+        }
+        if (n = 3) { // hard
+            do platform.setSize(32);
+            do Main.setBrickCount(30);
+            let lives = 1;
+        }
+        return;
+    }
+    
+
+    function void drawScore(int n) {
+        do Output.moveCursor(21, 5);
+        do Output.printString(strScore);
+        do Output.moveCursor(21, 11);
+        do Output.printInt(n);
+        return;
+    }
+    
+
+    function void drawLives(int n) {
+        do Output.moveCursor(21, 20);
+        do Output.printString(strLives);
+        do Output.moveCursor(21, 26);
+        do Output.printInt(n);
+        return;
+    }
+    
+
+    function void drawBricks() {
+        var int i;
+        var Brick currentBrick;
+        let i = 0;
+        while (i < brickCount) {
+            let currentBrick = bricks[i];
+				
+				if (~(currentBrick = null)){
+					
+					if (currentBrick.isActive()) {
+						do currentBrick.drawBrick();
+				}
+			}
+				let i = i + 1;
+        }
+        return;
+    }
+}
