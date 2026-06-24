@@ -57,32 +57,29 @@ class Ball{
             do Main.setBallLost();
         }
         
-        if (checkCollisionWithPlatform(platform)){
-            let platformLeft = platform.getX() - (platform.getWidth() / 2);
-            let platformRight = platform.getX() + (platform.getWidth() / 2);
-            let platformThird = platform.getWidth() / 3;
-            
-            let ballLeft = x;
-            let ballRight = x + bW;
-            
-            if (ballRight < (platformLeft + platformThird)) {
-                let dx = -1;
-            }
-            else {
-                if (ballLeft > (platformRight - platformThird)) {
-                    let dx = 1;
-                }
-                else {
-                    let dx = 1.25;
-                }
-            }         
-            
-            let dy = -dy;   
-            let y = platform.getY() - (bH + 1);
-        }
-    
-        return;
+        if ((dy > 0) & checkCollisionWithPlatform(platform)) {
+    let platformLeft = platform.getX() - (platform.getWidth() / 2);
+    let platformRight = platform.getX() + (platform.getWidth() / 2);
+    let platformThird = platform.getWidth() / 3;
+
+    let ballLeft = x;
+    let ballRight = x + bW;
+
+    if (ballRight < (platformLeft + platformThird)) {
+        let dx = -1;               // lijeva trecina: ide lijevo
     }
+    else {
+        if (ballLeft > (platformRight - platformThird)) {
+            let dx = 1;            // desna trecina: ide desno
+        }
+        else {
+            let dx = -dx;          // sredina: promijeni trenutni smjer
+        }
+    }
+
+    let dy = -1;
+    let y = platform.getY() - (bH + 1);
+}
     
     method boolean checkCollisionWithPlatform(Platform p) {
         var int platformTop, platformBottom, platformLeft, platformRight;
