@@ -80,6 +80,8 @@ class Ball{
     let dy = -1;
     let y = platform.getY() - (bH + 1);
 }
+return;
+}
     
     method boolean checkCollisionWithPlatform(Platform p) {
         var int platformTop, platformBottom, platformLeft, platformRight;
