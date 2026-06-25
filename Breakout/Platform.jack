@@ -1,9 +1,9 @@
 class Platform{
 	
-	field int pX, pY; // platform center (coordinates)
-	field int pW, pH; // platform width/height
+	field int pX, pY; 
+	field int pW, pH; 
 	field int direction;
-	field int vel;	  // platform speed.
+	field int vel;	  
 	
 	
 	
@@ -12,8 +12,8 @@ class Platform{
 		
 		let pW = 64;
 		let pH = 8;
-		let pX = 256; // x coordinate
-		let pY = 200; // y coordinate
+		let pX = 256;
+		let pY = 200; 
 		let direction = 0;
 		let vel = 2;
 		
