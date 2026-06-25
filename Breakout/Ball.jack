@@ -75,12 +75,10 @@ class Ball{
         else {
             let dx = -dx;          
         }
+        let dy = -1;
+        let y = platform.getY() - (bH + 1);
     }
-
-    let dy = -1;
-    let y = platform.getY() - (bH + 1);
-}
-return;
+    return;
 }
     
     method boolean checkCollisionWithPlatform(Platform p) {
