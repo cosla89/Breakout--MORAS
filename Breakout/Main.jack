@@ -58,7 +58,7 @@ class Main {
 
 
     function void updateGameState() {
-    let ballLost = false;       // reset flag each frame
+    let ballLost = false;       
     
     if (brickCount = cntBrick) {
         do Main.gameWon();
@@ -67,7 +67,7 @@ class Main {
     do platform.move();
     do ball.move();
     
-    if (ballLost) {             // check AFTER move completes
+    if (ballLost) {           
         do Main.gameOver();
     }
     
@@ -118,11 +118,11 @@ class Main {
 
         if (lives > 1) {
             let lives = lives - 1;
-            // Resetiraj poziciju loptice
+            
             do ball.setX(platform.getX()); 
             do ball.setY(platform.getY() - (ball.getH() + 10)); 
             
-            // Pauza od 1 sekunde
+            
             let i = 0;
             while (i < 100) {
                 do Sys.wait(10);
@@ -141,7 +141,7 @@ class Main {
             do Output.moveCursor(15, 33);
             do Output.printInt(score);
             
-            // Pauza od 2 sekunde
+            
             let i = 0;
             while (i < 200){
                 do Sys.wait(10);
@@ -166,7 +166,7 @@ class Main {
         do Output.moveCursor(15, 32);
         do Output.printInt(score);
         
-        // Pauza od 2 sekunde
+        
         let i = 0;
         while (i < 200) {
             do Sys.wait(10);
