@@ -66,14 +66,14 @@ class Ball{
     let ballRight = x + bW;
 
     if (ballRight < (platformLeft + platformThird)) {
-        let dx = -1;               // lijeva trecina: ide lijevo
+        let dx = -1;               
     }
     else {
         if (ballLeft > (platformRight - platformThird)) {
-            let dx = 1;            // desna trecina: ide desno
+            let dx = 1;            
         }
         else {
-            let dx = -dx;          // sredina: promijeni trenutni smjer
+            let dx = -dx;          
         }
     }
 
